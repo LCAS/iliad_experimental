@@ -1,0 +1,9 @@
+<library path="lib/libiliad_global_planner">
+  <class name="iliad_global_planner/iliad_global_planner" type="iliad_global_planner::iliad_global_planner" base_class_type="nav_core::BaseGlobalPlanner">
+    <description>
+      
+      A simple planner based on iliad_smp-planner that embeds iliad_smp into a ROS global Planner.
+      
+    </description>
+  </class>
+</library>

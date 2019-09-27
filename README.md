@@ -1,41 +1,27 @@
 # Packages and description:
+This is iliad-related experiments package. Things here are either still experimental or doubtfully useful ouside LCAS. 
+
 Note: Those packages are still in early development ("hic sunt dracones")
 
-## twist_controller (previously zombie)
-Extremely simple forklift controller. Contains a basic ROS/CAN bridge and a simple command converter. Command converter transforms from rot/trans vel commands (like a differential robot) to steering angle/speed and motor wheel speed.
-
-## base_simulation (previously in package named demo)
-Gazebo world configurations and simulated forklifts used in other packages.
-
-## nav_simulation (previously in package named demo)
-Shows simulated forklift using ROS navigation stacks. Currently testing TEB planner and ROS DWA.
+## constraints maps
+Provides a visualization of the mpc spatial constraints. Looks like oru nav is not using them...
 
 ## hri_simulation
-Depends on base and navigation simulation packages. It simulates human aware navigation.
+Depends on `iliad_base_simulation` and `nav_simulation` packages. It simulates human aware navigation.
 
-## dynamic_constraints
-Dynamic mpc constraints manager. Captures trajectories from the execution node to the controller node and modifies the spatial and speed constraints.
-
-## gazebo_plugins
-Actor collision plugin and binary contact sensor. The first is working nicely, the second was made redundant by contact_monitor (see correspoding repo at https://github.com/LCAS/gazebo-contactMonitor)
+## iliad_global_planner
+Luigi Palmieri already did this. This is a proof of concept of a ROS-compatible global ILIAD planner. Here just for testing ...
 
 ## iliad_human_local_navigation
 Experiments for the human aware local navigation.
 
-## iliad_launch
-Deprecated. Global launchers for ILIAD project are now at gitlab repos.
-
-## iliad_smp_planner
-Luigi Palmieri already did this. This is a proof of concept of a ROS-compatible ILIAD planner.
+## nav_simulation (previously in package named demo)
+Shows simulated forklift using ROS navigation stacks. Currently testing TEB planner and ROS DWA.
 
 ## taros19_experiments
 Launchers to create simulation experiments with same conditions but different navigation stacks. To be used in TAROS'19 paper.
 
-## constraints maps
-Provides a visualization of the mpc spatial constraints. 
-
-## Source dependences:
-Remember to source after building with ``catkin_make -DCMAKE_BUILD_TYPE=Release``
+## Other relevant packages:
 
 * strands_hri
 https://github.com/strands-project/strands_hri

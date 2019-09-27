@@ -16,7 +16,7 @@ This should Crash!
   <arg name="rviz_config_file" default="$(find nav_simulation)/rviz/iliad_cititruck_dwa_nav.rviz"/>
 
   <!-- SET UP GAZEBO WORLD AND VISUALIZATION .............................. -->
-  <include file="$(find base_simulation)/launch/scenario-2.launch">
+  <include file="$(find iliad_base_simulation)/launch/scenario-2.launch">
       <arg name="robot_id" value="$(arg robot_id)"/>
       <arg name="prefix" value="$(arg prefix)"/>
       <arg name="gazeboGui" value="$(arg gazeboGui)"/>

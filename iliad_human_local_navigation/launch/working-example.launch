@@ -13,7 +13,7 @@
   <arg name="topic_prefix" default="/$(arg prefix)"/>
 
 
-  <include file="$(find base_simulation)/launch/iliad_sim_ncfm_short_walk.launch">
+  <include file="$(find iliad_base_simulation)/launch/iliad_sim_ncfm_short_walk.launch">
       <arg name="robot_id" value="$(arg robot_id)"/>
       <arg name="map_frame_id" default="$(arg map_frame)"/>
       <arg name="rviz_config_file" value="$(find iliad_human_local_navigation)/config/working_example.rviz"/>

@@ -4,15 +4,15 @@
     ROS navigation stack controller
     based on turtlebot move_base.launch
 
-    This file is to be launched after starting robot driver and sensors (or any of its simulations in base_simulation).
+    This file is to be launched after starting robot driver and sensors (or any of its simulations in iliad_base_simulation).
     If local dwa plugin is enabled, this will be an human aware navigation stack.
 
     I.e.
-    roslaunch base_simulation iliad_sim_ncfm_no_human.launch gazeboGui:=false rviz_config_file:=`rospack find nav_simulation`/rviz/iliad_cititruck_dwa_nav.rviz
+    roslaunch iliad_base_simulation iliad_sim_ncfm_no_human.launch gazeboGui:=false rviz_config_file:=`rospack find nav_simulation`/rviz/iliad_cititruck_dwa_nav.rviz
 
     Or if you want to use with human aware navigation
 
-    roslaunch base_simulation iliad_sim_ncfm_short_walk.launch gazeboGui:=false rviz_config_file:=`rospack find hri_simulation`/rviz/iliad_cititruck_dwa_nav_hri.rviz
+    roslaunch iliad_base_simulation iliad_sim_ncfm_short_walk.launch gazeboGui:=false rviz_config_file:=`rospack find hri_simulation`/rviz/iliad_cititruck_dwa_nav_hri.rviz
 
 -->
 <launch>
@@ -30,13 +30,13 @@
 
       <!-- Filters out laser points hitting robot frame/wheels-->
       <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_2d_floor_filter">
-        <rosparam command="load" file="$(find base_simulation)/params/safety_laser_filter.yaml" />
+        <rosparam command="load" file="$(find iliad_base_simulation)/params/safety_laser_filter.yaml" />
         <remap from="scan" to="$(arg topic_prefix)/sensors/laser2d_floor" />
         <remap from="scan_filtered" to="$(arg topic_prefix)/sensors/laser2d_floor_fil" />
       </node>
 
       <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser2d_top_filter">
-	<rosparam command="load" file="$(find base_simulation)/params/uol_nav_laser_filter.yaml" />
+	<rosparam command="load" file="$(find iliad_base_simulation)/params/uol_nav_laser_filter.yaml" />
 	<remap from="scan" to="$(arg topic_prefix)/sensors/laser2d_top" />
 	<remap from="scan_filtered" to="$(arg topic_prefix)/sensors/laser2d_top_fil" />
       </node>

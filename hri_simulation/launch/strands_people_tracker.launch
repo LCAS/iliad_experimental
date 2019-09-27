@@ -6,7 +6,7 @@
     - an human aware dwa local planner in a move_base stack.
 
   I.e. 
-    roslaunch base_simulation iliad_sim_ncfm_short_walk.launch gazeboGui:=false rviz_config_file:=`rospack find hri_simulation`/rviz/iliad_cititruck_dwa_nav_hri.rviz
+    roslaunch iliad_base_simulation iliad_sim_ncfm_short_walk.launch gazeboGui:=false rviz_config_file:=`rospack find hri_simulation`/rviz/iliad_cititruck_dwa_nav_hri.rviz
 
     roslaunch nav_simulation move_base_dwa.launch 
   -->

@@ -50,7 +50,7 @@ This should Crash!
   <arg name="navigation_launch_file" value="$(find nav_simulation)/launch/move_base_mpc.launch" if="$(eval arg('navigation_id') == 3)"/>
 
   <!-- SET UP GAZEBO WORLD AND VISUALIZATION ....................... -->
-  <include file="$(find base_simulation)/launch/scenario_setup.launch">
+  <include file="$(find iliad_base_simulation)/launch/scenario_setup.launch">
       <arg name="scenario_id" value="$(arg scenario_id)"/>
       <arg name="robot_id" value="$(arg robot_id)"/>
       <arg name="prefix" value="$(arg prefix)"/>

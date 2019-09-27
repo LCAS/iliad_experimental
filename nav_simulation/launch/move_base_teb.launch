@@ -4,7 +4,7 @@
     ROS navigation stack controller
     based on turtlebot move_base.launch
 
-    This file is to be launched after starting robot driver and sensors (or any of its simulations in base_simulation).
+    This file is to be launched after starting robot driver and sensors (or any of its simulations in iliad_base_simulation).
 
 
 

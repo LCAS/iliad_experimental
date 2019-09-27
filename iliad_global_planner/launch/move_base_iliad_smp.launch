@@ -74,7 +74,7 @@
       
 
       <!-- Casts from vtrans,vrot from move base to robot (vtrans,vrot) for motrix wheel in robot  -->
-      <node pkg="twist_controller" type="velParser.py" name="velParser_node" output="screen">
+      <node pkg="iliad_citi_controller" type="velParser.py" name="velParser_node" output="screen">
           <param name="wheelsAxesDist" value="1.2"/>
           <param name="inPlacePhi" value="1.57"/>
           <param name="phiTol" value="0.01"/>

@@ -25,11 +25,11 @@
   <!-- INCLUDES .................................................... -->
 
 
-  <!-- LOAD WORLD use same file but in base_simulation package to remove people ...  -->
+  <!-- LOAD WORLD use same file but in iliad_base_simulation package to remove people ...  -->
   <include file="$(find gazebo_worlds_oru)/launch/ncfm_world.launch" if="$(arg hasPeople)"/>
   
 
-  <include file="$(find base_simulation)/launch/iliad_sim_ncfm_no_human.launch" unless="$(arg hasPeople)">     
+  <include file="$(find iliad_base_simulation)/launch/iliad_sim_ncfm_no_human.launch" unless="$(arg hasPeople)">     
        <arg name="gui" value="$(arg gazeboGui)"/> 
   </include>
 

@@ -4,10 +4,10 @@
     ROS navigation stack controller
     based on turtlebot move_base.launch
 
-    This file is to be launched after starting robot driver and sensors (or any of its simulations in base_simulation).
+    This file is to be launched after starting robot driver and sensors (or any of its simulations in iliad_base_simulation).
     
     I.e. 
-    roslaunch base_simulation iliad_sim_ncfm_no_human.launch gazeboGui:=false rviz_config_file:=`rospack find nav_simulation`/rviz/iliad_cititruck_nav.rviz 
+    roslaunch iliad_base_simulation iliad_sim_ncfm_no_human.launch gazeboGui:=false rviz_config_file:=`rospack find nav_simulation`/rviz/iliad_cititruck_nav.rviz 
 
 -->
 <launch>

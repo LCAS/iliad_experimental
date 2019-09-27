@@ -5,7 +5,7 @@ NAVIGATION=${2:-0}
 endTime=${3:-16}
 ROS_WORKSPACE=${4:-"/home/manolofc/workspace/TAROS19/"}
 
-worldFileName=$ROS_WORKSPACE"src/iliad/base_simulation/worlds/ncfm_model_1_actor_scenario-"$SCENARIO".world"
+worldFileName=$ROS_WORKSPACE"src/iliad/iliad_base_simulation/worlds/ncfm_model_1_actor_scenario-"$SCENARIO".world"
 
 case $SCENARIO in
 1)
@@ -23,7 +23,7 @@ case $SCENARIO in
 5)
     # special case: world naming not following pattern.
     Message="No human at all."
-    worldFileName=$ROS_WORKSPACE"src/iliad/base_simulation/worlds/ncfm_model_no_actors.world"
+    worldFileName=$ROS_WORKSPACE"src/iliad/iliad_base_simulation/worlds/ncfm_model_no_actors.world"
     ;;
 *)
   echo "Don't know Scenario "$SCENARIO"\n"

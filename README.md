@@ -6,6 +6,10 @@ Note: Those packages are still in early development ("hic sunt dracones")
 ## constraints maps
 Provides a visualization of the mpc spatial constraints. Looks like oru nav is not using them...
 
+
+## gazebo_plugin_binary_contact
+Gazebo binary contact sensor, it was made redundant by contact_monitor (see correspoding repo at https://github.com/LCAS/gazebo-contactMonitor)
+
 ## hri_simulation
 Depends on `iliad_base_simulation` and `nav_simulation` packages. It simulates human aware navigation.
 

@@ -53,7 +53,7 @@ ROS_WORKSPACE=$HOME"/workspace/iliad_ws/"
 SAVE_FOLDER=$ROS_WORKSPACE"/src/iliad_experimental/bags/"
 
 source $ROS_WORKSPACE"devel/setup.bash"
-
+mkdir -p $SAVE_FOLDER
 for ((ATTEMPT = 1; ATTEMPT < 4; ATTEMPT++)); do
       ## now loop through the above array
       for i in "${ScenarioNavigationTime[@]}"

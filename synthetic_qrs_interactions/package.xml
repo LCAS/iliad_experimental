@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package>
+  <name>synthetic_qrs_interactions</name>
+  <version>0.0.1</version>
+  <description>Collection of human robot interactions to generate synthetic qsr sequences</description>
+
+  <maintainer email="mfernandezcarmona@lincoln.ac.uk">Manuel</maintainer>
+  <license>TODO</license>
+
+  <run_depend>contact_monitor</run_depend>
+  <buildtool_depend>catkin</buildtool_depend>
+
+
+
+  <export>
+  </export>
+</package>

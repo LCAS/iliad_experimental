@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<!--
+   Additional packages not launched by iliad system...
+-->
+
+<launch>
+  <arg name="descriptor"/>
+  <arg name="robot_id" default="1"/>
+  <arg name="max_scenario_time" default="60"/>
+
+  <!-- DERIVED ARGS ................................................ -->
+  <!-- TF prefix of robot -->
+  <arg name="prefix" value="robot$(arg robot_id)"/>
+
+  <!-- -->
+  <arg name="topic_list" value=" /isColliding  /$(arg prefix)/robot_pose /actor_pose /$(arg prefix)/sensors/velodyne_packets /$(arg prefix)/sensors/laser2d_floor /$(arg prefix)/sensors/laser2d_floor_filtered /maps/map_laser2d /maps/map_active_area /tf /tf_static /$(arg prefix)/control/controller/commands /$(arg prefix)/control/controller/reports /$(arg prefix)/control/controller/trajectories /$(arg prefix)/control/encoders /$(arg prefix)/control/odom /$(arg prefix)/control/report /$(arg prefix)/control/state /$(arg prefix)/qtc_state_topics /$(arg prefix)/people_tracker_filtered/marker_array /$(arg prefix)/people_tracker_filtered/pose_array /$(arg prefix)/people_tracker_filtered/positions /$(arg prefix)/human_perception/tracked_persons"/>
+  
+  
+
+  <!-- Yes, robot always goes to the same place -->
+  <arg name="target_x" value="14.5"/>
+  <arg name="target_y" value="-7.5"/>
+  <arg name="target_ox" value="0.0"/>
+  <arg name="target_oy" value="0.0"/>
+  <arg name="target_oz" value="-0.707"/>
+  <arg name="target_ow" value="0.707"/>
+  <arg name="target_frame_id" value="map_laser2d"/>
+  <arg name="goal_pub_topic" value="/$(arg prefix)/goal"/>
+
+  <!-- Provide a goal to the robot -->
+  <node pkg="rostopic" type="rostopic" name="robot_goal_pub" args="pub $(arg goal_pub_topic) geometry_msgs/PoseStamped '{header: { seq: 0,   stamp: {secs: 0, nsecs: 0}, frame_id: '$(arg target_frame_id)'}, pose: {  position: { x: $(arg target_x), y: $(arg target_y), z: 0.0}, orientation:{ x: $(arg target_ox),  y: $(arg target_oy), z: $(arg target_oz), w: $(arg target_ow)}}}' -1 --latch" output="screen"/>
+
+  <!-- robot position  -->
+  <node pkg="robot_pose_publisher" type="robot_pose_publisher" name="steer_pose_publisher" output="screen">
+    <param name="map_frame" value="world"/>
+    <param name="base_frame" value="$(arg prefix)/base_footprint"/>
+    <param name="is_stamped" value="true"/>
+    <remap from="robot_pose" to="/$(arg prefix)/robot_pose"/>
+  </node>
+
+  <!-- human position -->
+  <node pkg="taros19_experiments" type="gazebo_model_pose_publisher.py" name="actor_pose_publisher" output="screen">
+    <param name="map_frame" value="world"/>
+    <param name="model_name" value="actor1"/>
+  </node>
+
+  <!-- human-robot collisions -->
+  <node pkg="contact_monitor" type="contactMonitor" name="contact" >
+        <param name="collisions_topic_name" value="/isColliding"/>
+        <param name="collision_names_topic_name" value="/collisionData"/>
+        <param name="gazebo_physics_contact_topic_name" value="/gazebo/default/physics/contacts"/>
+        <param name="robot_model_name" value="$(arg prefix)"/>
+        <param name="actor_model_name" value="actor1"/>
+  </node>
+  
+  <node required="true" pkg="rosbag" type="record" name="recorder"
+    args="record --duration=$(arg max_scenario_time) -o $(arg descriptor) $(arg topic_list)" output="screen"/>
+
+</launch>

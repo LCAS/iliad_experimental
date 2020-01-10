@@ -66,7 +66,6 @@ for ((ATTEMPT = 1; ATTEMPT < 4; ATTEMPT++)); do
          echo -e "......................"
          echo "Running simulation: Scenario: "$s", Human delay: "$startt", Human walk time: "$endt", Attempt: "$a
          rosrun synthetic_qrs_interactions experiment.bash $i $ROS_WORKSPACE
-         sleep 150
          echo -e "done."
          echo -e "......................"
          echo -e "Moving bag file to ["$SAVE_FOLDER"]"

@@ -91,7 +91,7 @@ sleep 10
 echo "----------------------     DONE SLEEPING HERE   ----------------------"
 
 # Provide target, start recording
-roslaunch synthetic_qrs_interactions additional_nodes.launch robot_id:=$robot_id  descriptor:=$bag_file_code
+roslaunch synthetic_qrs_interactions additional_nodes.launch robot_id:=$robot_id  descriptor:=$bag_file_code max_scenario_time:=150
 
 # stop tmule for iliad-robot
 echo "--------------    STOPPING ROBOT TMULE SCRIPT     --------------------"

@@ -1,52 +1,137 @@
-Tests will rely on iliad_launch_system package, but setting 4 different simulation scenarios.
+Tests will rely on iliad_launch_system package, but setting 8 different simulation scenarios.
 All scenarios take place in simulated NCFM facilities.
+Robot always does the same route, but human has different start and end points, depending on the scenario. 
+Playing with the initial delay for the human trajectory and its end time, we can force variations in each scenario.
 
-Scenario 1
 
-<pose>-20.0 3.3 0.0 0.0 0.0 -1.57</pose>  robot
+..............................................................................................
+
+S1 Robot crossess left of human
+    S1-i25-e48: collision!                       
+    S1-i25-e35: Human crosses first                      
+    S1-i25-e59: Robot crosses first            
+
+
+<pose>14.5 2.0 0.0 0.0 0.0 -1.57</pose>  robot
                                             |
                                             |
-<pose>-22 -2.0 0 0 0 0.00</pose>   human---------->   <pose>-18.5 -2.0 0 0 0 0</pose>
+<pose>7.0 -3.75 0 0 0 0</pose>   human---------->  human  <pose>22.0 -3.75 0 0 0 0</pose>
                                             |
                                             |
                                             \/
-<pose>-20.0 -3.3 0.0 0.0 0.0 -1.57</pose>
+<pose>14.5 -7.5 0.0 0.0 0.0 -1.57</pose>  robot
 
-.................................................................................................
-Scenario 2
+..............................................................................................
 
-<pose>-20.0 3.3 0.0 0.0 0.0 -1.57</pose>  robot
+S2 Robot crossess right of human
+    S2-i25-e48: collision!                      
+    S2-i25-e35: Human crosses first                      
+    S2-i25-e59: Robot crosses first      
+
+<pose>14.5 2.0 0.0 0.0 0.0 -1.57</pose>  robot
                                             |
                                             |
-<pose>-22 -2.0 0 0 0 3.14</pose>      <----------human   <pose>-18.5 -2.0 0 0 0 3.14</pose>
+<pose>7.0 -3.75 0 0 0 0</pose>   human <----------human   <pose>22.0 -3.75 0 0 0 0</pose>
                                             |
                                             |
                                             \/
-<pose>-20.0 -3.3 0.0 0.0 0.0 -1.57</pose>
+<pose>14.5 -7.5 0.0 0.0 0.0 -1.57</pose>  robot 
 
-.................................................................................................
-Scenario 3
+..............................................................................................
 
-<pose>-20.0 3.3 0.0 0.0 0.0 -1.57</pose>  robot     human   <pose>-19.2 3.3 0 0 0 -1.57</pose>
+S3 Robot is overtaken by human (robot left of human)
+    S3-i33-e40: almost same speed                                    
+    S3-i36-e15: human is faster
+
+<pose>12.5 2 0 0 0 -1.57</pose>           human     robot  <pose>14.5 2.0 0.0 0.0 0.0 -1.57</pose>
+                                            |         |
+                                            |         |
+                                            |         |
+                                            |         |
+                                            |         |
+                                            |         \/   <pose>14.5 -7.5 0.0 0.0 0.0 -1.57</pose>  
+                                           \/
+<pose>12.5 -9.1 0 0 0 -1.57</pose>        human   
+
+..............................................................................................
+
+S4 Robot is overtaken by human (robot right of human)
+    S4-i33-e40: almost same speed                                    
+    S4-i36-e15: human is faster
+
+<pose>14.5 2.0 0.0 0.0 0.0 -1.57</pose>  robot     human   <pose>16.5 2 0 0 0 -1.57</pose> 
                                             |         |
                                             |         |
                                             |         |
                                             |         |
                                             \/        |
-<pose>-20.0 -3.3 0.0 0.0 0.0 -1.57</pose> robot       |
+<pose>14.5 -7.5 0.0 0.0 0.0 -1.57</pose>  robot       |
                                                       \/
-                                                    human   <pose>-19.2 -4.3 0 0 0 -1.57</pose>
+                                                    human   <pose>16.5 -9.1 0 0 0 -1.57</pose>
 
-.................................................................................................
-Scenario 4
+..............................................................................................
 
-<pose>-20.0 3.3 0.0 0.0 0.0 -1.57</pose>  robot     human   <pose>-19.2 3.3 0 0 0 1.57</pose>
-                                            |         ^
+S5 Robot is overtaken by human with collision
+    S5-i25-e59: collision in the end                      
+    S5-i25-e45: collision in the middle   
+
+<pose>14.5  4.0 0.0 0.0 0.0 -1.57</pose>   human   
+                                            |
+                                            |
+<pose>14.5  2.0 0.0 0.0 0.0 -1.57</pose>  robot        
+                                            |
+                                            |
+                                          [COLLISION!]
+                                            |
+                                            \/        
+<pose>14.5 -7.5 0.0 0.0 0.0 -1.57</pose>  robot
+                                            |
+                                            |
+                                            \/
+<pose>14.5 -9.1 0.0 0.0 0.0 -1.57</pose>   human   
+
+..............................................................................................
+
+S6 Robot is headed to human, in parallel (robot left of human)
+    S6-i33-e40: almost same speed                                    
+    S6-i36-e15: human is faster
+
+<pose>14.5 2.0 0.0 0.0 0.0 -1.57</pose>  robot     human   <pose>16.5 2 0 0 0 1.57</pose>
+                                            |        /\
+                                            |         |
                                             |         |
                                             |         |
                                             |         |
                                             \/        |
-<pose>-20.0 -3.3 0.0 0.0 0.0 -1.57</pose> robot       |
-                                                      |
-                                                      |
-                                                    human   <pose>-19.2 -4.3 0 0 0 1.57</pose>
+<pose>14.5 -7.5 0.0 0.0 0.0 -1.57</pose>  robot       |
+                                                    human   <pose>16.5 -9.1 0 0 0 1.57</pose> 
+                                                    
+..............................................................................................
+
+S7 Robot is headed to human, in parallel (robot right of human)
+    S7-i33-e40: almost same speed                                    
+    S7-i36-e15: human is faster
+
+<pose>12.5 2 0 0 0 -1.57</pose>           human     robot  <pose>14.5 2.0 0.0 0.0 0.0 -1.57</pose>
+                                           /\         |
+                                            |         |
+                                            |         |
+                                            |         |
+                                            |         |
+                                            |         \/   <pose>14.5 -7.5 0.0 0.0 0.0 -1.57</pose>  
+                                            |
+<pose>12.5 -9.1 0 0 0 -1.57</pose>        human   
+
+..............................................................................................
+
+S8 Robot is headed to human with collision
+
+<pose>14.5  2.0 0.0 0.0 0.0 -1.57</pose>  robot  (and human destination)
+                                            |
+                                            |
+                                            \/
+                                          [COLLISION!]
+                                            /\
+                                            |  ( robot destination <pose>14.5 -7.5 0.0 0.0 0.0 -1.57</pose>)
+                                            |
+<pose>14.5 -9.1 0.0 0.0 0.0 -1.57</pose>   human  

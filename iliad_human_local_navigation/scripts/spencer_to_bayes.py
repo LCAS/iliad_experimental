@@ -26,7 +26,7 @@ class SpencerToBayes:
 		ppl_topic            = rospy.get_param("~ppl_topic", "/robot4/people_tracker/positions")
 		self.target_frame    = rospy.get_param("~target_frame", "robot4/base_link")
 		self.listener        = tf.TransformListener()
-		self.pub             = rospy.Publisher(ppl_topic, PeopleTracker)#, queue_size=10)
+		self.pub             = rospy.Publisher(ppl_topic, PeopleTracker, queue_size=1)
 		self.last_msg        = PeopleTracker()
 		rospy.Subscriber(
 			person_topic,

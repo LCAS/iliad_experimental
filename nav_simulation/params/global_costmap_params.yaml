@@ -4,10 +4,13 @@ global_costmap:
   update_frequency: 5.0
   publish_frequency: 2.0
   static_map: true
-
+  track_unknown_space: false # mfc: I think this param has no use here ...
+  always_send_full_costmap: false
   transform_tolerance: 0.5
 
   plugins:
     - {name: static_layer,            type: "costmap_2d::StaticLayer"}
-    - {name: obstacle_layer,          type: "costmap_2d::VoxelLayer"}
-    - {name: inflation_layer,         type: "costmap_2d::InflationLayer"}
+    - {name: human_layer,             type: "costmap_2d::StaticLayer"}    
+    #- {name: obstacle_layer,          type: "costmap_2d::VoxelLayer"}
+    #- {name: inflation_layer,         type: "costmap_2d::InflationLayer"}
+

@@ -5,10 +5,10 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Grid1/Offset1
-        - /Map1
         - /TF1/Frames1
         - /TF1/Tree1
         - /ROS Navigation1
+        - /ROS Navigation1/Global costmap1
       Splitter Ratio: 0.659217894
     Tree Height: 775
   - Class: rviz/Selection
@@ -30,6 +30,8 @@ Panels:
     Name: Time
     SyncMode: 0
     SyncSource: Nav laser
+Toolbars:
+  toolButtonStyle: 2
 Visualization Manager:
   Class: ""
   Displays:
@@ -133,18 +135,18 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: Map
-      Topic: /maps/map_laser2d
+      Topic: /map_laser2d
       Unreliable: false
       Use Timestamp: false
-      Value: true
+      Value: false
     - Class: rviz/TF
       Enabled: true
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        maps/map_laser2d:
+        map_laser2d:
           Value: true
         robot1/base_footprint:
           Value: true
@@ -157,13 +159,13 @@ Visualization Manager:
         robot1/fixed_right_wheel_link:
           Value: false
         robot1/laser2d_floor_base_link:
-          Value: true
+          Value: false
         robot1/laser2d_floor_link:
-          Value: true
+          Value: false
         robot1/laser2d_top_base_link:
-          Value: true
+          Value: false
         robot1/laser2d_top_link:
-          Value: true
+          Value: false
         robot1/left_fork:
           Value: false
         robot1/odom_enc:
@@ -175,15 +177,15 @@ Visualization Manager:
         robot1/steer_link:
           Value: false
         world:
-          Value: false
-      Marker Scale: 0.800000012
+          Value: true
+      Marker Scale: 8
       Name: TF
       Show Arrows: false
       Show Axes: true
-      Show Names: false
+      Show Names: true
       Tree:
         world:
-          maps/map_laser2d:
+          map_laser2d:
             {}
           robot1/base_footprint:
             robot1/base_link:
@@ -370,7 +372,7 @@ Visualization Manager:
       Name: Kinect v2
     - Class: rviz/Group
       Displays:
-        - Alpha: 0.25
+        - Alpha: 1
           Class: rviz/Map
           Color Scheme: costmap
           Draw Behind: false
@@ -403,16 +405,16 @@ Visualization Manager:
           Topic: /robot1/move_base/DWAPlannerROS/global_plan
           Unreliable: false
           Value: true
-        - Alpha: 0.699999988
+        - Alpha: 1
           Class: rviz/Map
-          Color Scheme: costmap
+          Color Scheme: raw
           Draw Behind: false
-          Enabled: true
+          Enabled: false
           Name: local Costmap
           Topic: /robot1/move_base/local_costmap/costmap
           Unreliable: false
           Use Timestamp: false
-          Value: true
+          Value: false
         - Alpha: 1
           Axes Length: 1
           Axes Radius: 0.100000001
@@ -453,6 +455,16 @@ Visualization Manager:
           Value: true
       Enabled: true
       Name: ROS Navigation
+    - Alpha: 1
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: false
+      Name: Map
+      Topic: /robot1/qsr/constraints_costmap
+      Unreliable: false
+      Use Timestamp: false
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -477,7 +489,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 0.00499906577
+      Angle: 0.0199990869
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
@@ -487,11 +499,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 63.1302261
+      Scale: 29.1926231
       Target Frame: robot1/base_footprint
       Value: TopDownOrtho (rviz)
-      X: 0.635059536
-      Y: -0.817476153
+      X: -0.922893226
+      Y: -1.6441046
     Saved: ~
 Window Geometry:
   Displays:

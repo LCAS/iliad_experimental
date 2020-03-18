@@ -21,14 +21,15 @@
       <arg name="prefix"        default="robot$(arg robot_id)"/>
       <arg name="topic_prefix"  default="/$(arg prefix)"/>
       
-      <arg name="global_frame"   default = "map"/>
+      <arg name="global_frame"   default = "/map"/>
 
       <arg name="odom_topic" default="odom" />
       <arg name="cmd_vel_topic_rel" default="move_base/cmd_vel" />
 
-      <arg name="map_frame" default="map_laser2d"/>
-      <arg name="map_topic" default="map_laser2d"/>
-      <arg name="base_frame" default="$(arg prefix)/base_link"/>
+      <arg name="map_frame" default="/map"/>
+      <arg name="map_topic" default="/map"/>
+      <!-- <arg name="base_frame" default="$(arg prefix)/base_link"/> -->
+      <arg name="base_frame" default="base_link"/>
 
       <group ns="$(arg prefix)">
          <!--
@@ -65,7 +66,9 @@
           <param name="planner_frequency" value="1.0" />
           <param name="planner_patience" value="5.0" />
 
-          <param name="base_local_planner" value="dwa_local_planner_constraint/DWAPlannerROS" />
+          <!-- <param name="base_local_planner" value="dwa_local_planner_constraint/DWAPlannerROS" /> -->
+          <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
+          
           <param name="controller_frequency" value="8.0" />
           <param name="controller_patience" value="15.0" />
 
@@ -97,9 +100,6 @@
 
           <rosparam param="local_costmap/static_layer/global_frame" subst_value="true">"$(arg global_frame)"</rosparam>
           <rosparam param="local_costmap/static_layer/map_topic" subst_value="true">"$(arg map_topic)"</rosparam>
-
-
-
 
       </node>
     </group>

@@ -25,6 +25,7 @@ from geometry_msgs.msg import PoseStamped
 import numpy as np
 from tf.transformations import euler_from_quaternion
 import pandas as pd
+import tf2_py as tf2
 
 import matplotlib.pyplot as plt
 
@@ -54,56 +55,62 @@ def getModulus(poseSt):
 
 # gets the transfrom from in_frame to out_frame at given time in rosbag object
 def getTransform(in_frame_id, out_frame_id, time, bag_tf):
-    translation, quaternion = bag_tf.lookupTransform(out_frame_id, in_frame_id, time)
-    tfSt = TransformStamped()
-    tfSt.header.stamp = time
-    tfSt.header.frame_id = out_frame_id
-    tfSt.child_frame_id = in_frame_id
-    tfSt.transform.translation.x = translation[0]
-    tfSt.transform.translation.y = translation[1]
-    tfSt.transform.translation.z = translation[2]
+    tfSt = None
+    try:
+        translation, quaternion = bag_tf.lookupTransform(out_frame_id, in_frame_id, time)
+        tfSt = TransformStamped()
+        tfSt.header.stamp = time
+        tfSt.header.frame_id = out_frame_id
+        tfSt.child_frame_id = in_frame_id
+        tfSt.transform.translation.x = translation[0]
+        tfSt.transform.translation.y = translation[1]
+        tfSt.transform.translation.z = translation[2]
 
-    tfSt.transform.rotation.x = quaternion[0]
-    tfSt.transform.rotation.y = quaternion[1]
-    tfSt.transform.rotation.z = quaternion[2]
-    tfSt.transform.rotation.w = quaternion[3]
+        tfSt.transform.rotation.x = quaternion[0]
+        tfSt.transform.rotation.y = quaternion[1]
+        tfSt.transform.rotation.z = quaternion[2]
+        tfSt.transform.rotation.w = quaternion[3]
+    except tf2.ExtrapolationException as e:
+        print("[getTransform] no tf available yet. ")
 
     return tfSt
 
 # returns the closest (to ref_frame_id) human posestamped. Sets global var tracked_uuid 
 def getClosestHuman(peopleTrackerMsg,time,ref_frame_id,bag_tf):
     global tracked_uuid
-
-    poseOut = PoseStamped()
-    poseOut.header = peopleTrackerMsg.header
-    
+    tfi = None
+    poseOut = None    
     shouldTransform = (peopleTrackerMsg.header.frame_id != ref_frame_id)
 
     if (shouldTransform):
         tfi = getTransform(peopleTrackerMsg.header.frame_id, ref_frame_id, time, bag_tf)
 
-    min_i = -1
-    min_d = np.inf
+    if (tfi!=None) or not shouldTransform:
+        poseOut = PoseStamped()
+        poseOut.header = peopleTrackerMsg.header
 
-    for i,pose_i in enumerate(peopleTrackerMsg.poses):
-        poseOut.pose = pose_i
+        min_i = -1
+        min_d = np.inf
 
-        if (shouldTransform):
-            relPoseSt = do_transform_pose(poseOut, tfi)
+        for i,pose_i in enumerate(peopleTrackerMsg.poses):
+            poseOut.pose = pose_i
+
+            if (shouldTransform):
+                relPoseSt = do_transform_pose(poseOut, tfi)
+            else:
+                relPoseSt = poseOut
+
+            d = getModulus(relPoseSt)
+            if (d<min_d):
+                min_d = d
+                min_i = i
+
+        if (min_i!=-1):
+            poseOut.pose = peopleTrackerMsg.poses[min_i]
+            if tracked_uuid == None:
+                tracked_uuid = peopleTrackerMsg.uuids[min_i]
         else:
-            relPoseSt = poseOut
-
-        d = getModulus(relPoseSt)
-        if (d<min_d):
-            min_d = d
-            min_i = i
-
-    if (min_i!=-1):
-        poseOut.pose = peopleTrackerMsg.poses[min_i]
-        if tracked_uuid == None:
-            tracked_uuid = peopleTrackerMsg.uuids[min_i]
-    else:
-        poseOut = None
+            poseOut = None
 
     return poseOut
 
@@ -130,8 +137,10 @@ def getFirstClosestHuman(peopleTrackerMsg,time,ref_frame_id,bag_tf):
 if __name__ == '__main__':
     ## params
 
-    bagFolder = '/home/manolofc/ILIAD_DATASETS/HRSI_situation_QTC_rosbags/ot/hotl/'
-    bagFile = '10.bag'
+    #bagFolder = '/home/manolofc/ILIAD_DATASETS/HRSI_situation_QTC_rosbags/ot/hotl/'
+    #bagFile = '10.bag'
+    bagFolder = '/home/manolofc/ILIAD_DATASETS/HRSI_situation_QTC_rosbags/ot/rotl/'    
+    bagFile = '7.bag'
     resultsFile = bagFile[:-4]+'.csv'
     resultsURI =  bagFolder + resultsFile
 
@@ -167,55 +176,58 @@ if __name__ == '__main__':
     # Process bag ..........................................................
     for topic, msg, t in bag.read_messages():
         if topic == human_poses_topic:
+            #print('.')
             # we got a human pose array: cast to map frame if needed.
             human_frame_id = msg.header.frame_id
             shouldTransform = (human_frame_id != map_frame_id)
-
+            transform = None
             if (shouldTransform):
                 transform = getTransform(human_frame_id, map_frame_id, t, bag_transformer)
 
-            # uncomment this if you just want to stick to closest.
-            #humanPoseRob = getClosestHuman(msg,t,robot_frame_id,bag_transformer) 
-            humanPoseRob = getFirstClosestHuman(msg,t,robot_frame_id,bag_transformer) 
-            # if human pose array was empty, we hava a null here
-            isValid = (humanPoseRob!=None)
+            if (transform!=None) or not shouldTransform:
+                # uncomment this if you just want to stick to closest.
+                #humanPoseRob = getClosestHuman(msg,t,robot_frame_id,bag_transformer) 
+                humanPoseRob = getFirstClosestHuman(msg,t,robot_frame_id,bag_transformer) 
+                # if human pose array was empty, we hava a null here
+                isValid = (humanPoseRob!=None)
 
-            # this is either wrong or troubleful...
-            if isValid:
-                isValid = not ( (humanPoseRob.pose.position.x==0) and (humanPoseRob.pose.position.y==0) and (humanPoseRob.pose.position.z==0))
+                # this is either wrong or troubleful...
+                if isValid:
+                    isValid = not ( (humanPoseRob.pose.position.x==0) and (humanPoseRob.pose.position.y==0) and (humanPoseRob.pose.position.z==0))
 
-            if (isValid):                
-                #printPoseSt(humanPoseRob,"Human pose in: ")
-                if (shouldTransform):
-                    humanPoseMap = do_transform_pose(humanPoseRob, transform)
-                else:
-                    humanPoseMap = humanPoseRob
-                #printPoseSt(humanPoseMap,"Human pose out: ")
+                if (isValid):                
+                    #printPoseSt(humanPoseRob,"Human pose in: ")
+                    if (shouldTransform):
+                        humanPoseMap = do_transform_pose(humanPoseRob, transform)
+                    else:
+                        humanPoseMap = humanPoseRob
+                    #printPoseSt(humanPoseMap,"Human pose out: ")
 
-                # Now, we get robot pose in map frame too for comparison.
-                shouldTransform = (robot_frame_id != map_frame_id)
+                    # Now, we get robot pose in map frame too for comparison.
+                    shouldTransform = (robot_frame_id != map_frame_id)
 
-                if (shouldTransform):
-                    transform = getTransform(robot_frame_id, map_frame_id, t, bag_transformer)
+                    if (shouldTransform):
+                        transform = getTransform(robot_frame_id, map_frame_id, t, bag_transformer)
 
-                robotPose = PoseStamped()
-                robotPose.header.frame_id = robot_frame_id
-                robotPose.header.stamp = t
-                
-                if (shouldTransform):
-                    robotPoseMap = do_transform_pose(robotPose, transform)
-                else:
-                    robotPoseMap = robotPose
+                    robotPose = PoseStamped()
+                    robotPose.header.frame_id = robot_frame_id
+                    robotPose.header.stamp = t
+                    
+                    if (shouldTransform):
+                        robotPoseMap = do_transform_pose(robotPose, transform)
+                    else:
+                        robotPoseMap = robotPose
 
-                # Finally, save data
-                robot_pose_x.append(robotPoseMap.pose.position.x)
-                robot_pose_y.append(robotPoseMap.pose.position.y)
-                robot_pose_h.append(getYaw(robotPoseMap.pose.orientation))
-                human_pose_x.append(humanPoseMap.pose.position.x)
-                human_pose_y.append(humanPoseMap.pose.position.y)
-                human_pose_h.append(getYaw(humanPoseMap.pose.orientation))            
-                human_pose_t.append(t.to_sec())
-
+                    # Finally, save data
+                    robot_pose_x.append(robotPoseMap.pose.position.x)
+                    robot_pose_y.append(robotPoseMap.pose.position.y)
+                    robot_pose_h.append(getYaw(robotPoseMap.pose.orientation))
+                    human_pose_x.append(humanPoseMap.pose.position.x)
+                    human_pose_y.append(humanPoseMap.pose.position.y)
+                    human_pose_h.append(getYaw(humanPoseMap.pose.orientation))            
+                    human_pose_t.append(t.to_sec())
+            else:
+                print("Skipping point at time "+str(t.to_sec())+" due to incomplete tf tree at that time")
     # close bag
     bag.close()
 

@@ -137,8 +137,12 @@ def getFirstClosestHuman(peopleTrackerMsg,time,ref_frame_id,bag_tf):
 if __name__ == '__main__':
     ## params
 
+    # this was a nice clean rosbag
     #bagFolder = '/home/manolofc/ILIAD_DATASETS/HRSI_situation_QTC_rosbags/ot/hotl/'
     #bagFile = '10.bag'
+
+    # this has a couple of missing points due to incomplete tfs
+    
     bagFolder = '/home/manolofc/ILIAD_DATASETS/HRSI_situation_QTC_rosbags/ot/rotl/'    
     bagFile = '7.bag'
     resultsFile = bagFile[:-4]+'.csv'

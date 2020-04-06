@@ -3,29 +3,17 @@
 '''
 QSR parser. Reads bags produced by Laurence experiments for TAROS 2020
 
+- We use from each bag the topics:
+    /robot5/people_tracker_filtered/positions      
+    /tf                                            
+    /tf_static                                     
 
-- Each bag file contains:
-             /maps/map_active_area                          
-             /maps/map_laser2d                              
-             /robot5/control/controller/reports             
-             /robot5/control/encoders                       
-             /robot5/control/odom                           
-             /robot5/control/report                         
-             /robot5/control/state                          
-             /robot5/people_tracker_filtered/marker_array   
-             /robot5/people_tracker_filtered/pose_array     
-             /robot5/people_tracker_filtered/positions      
-             /robot5/qtc_state_topics                       
-             /robot5/sensors/laser2d_floor                  
-             /robot5/sensors/laser2d_floor_filtered         
-             /robot5/sensors/velodyne_packets               
-             /tf                                            
-             /tf_static                                     
-
-
-- We obtain:
+- With those, we obtain:
     - Robot Trajectory in map frame: from tf data
     - Human Trajectory in map frame: from positions topic
+
+Note you will need to install tf_bag from https://github.com/LCAS/tf_bag
+I recently included last changes from original repo, so our released package most likely won't be updated. 
 '''
 
 

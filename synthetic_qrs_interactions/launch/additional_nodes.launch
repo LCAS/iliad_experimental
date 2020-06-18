@@ -14,7 +14,7 @@
   <arg name="prefix" value="robot$(arg robot_id)"/>
 
   <!-- -->
-  <arg name="topic_list" value=" /isColliding  /$(arg prefix)/robot_pose /actor_pose /$(arg prefix)/sensors/velodyne_packets /$(arg prefix)/sensors/laser2d_floor /$(arg prefix)/sensors/laser2d_floor_filtered /maps/map_laser2d /maps/map_active_area /tf /tf_static /$(arg prefix)/control/controller/commands /$(arg prefix)/control/controller/reports /$(arg prefix)/control/controller/trajectories /$(arg prefix)/control/encoders /$(arg prefix)/control/odom /$(arg prefix)/control/report /$(arg prefix)/control/state /$(arg prefix)/qtc_state_topics /$(arg prefix)/people_tracker_filtered/marker_array /$(arg prefix)/people_tracker_filtered/pose_array /$(arg prefix)/people_tracker_filtered/positions /$(arg prefix)/human_perception/tracked_persons"/>
+  <arg name="topic_list" value=" /isColliding  /$(arg prefix)/robot_pose /actor_pose /$(arg prefix)/sensors/velodyne_packets /$(arg prefix)/sensors/laser2d_floor /$(arg prefix)/sensors/laser2d_floor_filtered /maps/map_laser2d /maps/map_active_area /tf /tf_static /$(arg prefix)/control/controller/commands /$(arg prefix)/control/controller/reports /$(arg prefix)/control/controller/trajectories /$(arg prefix)/control/encoders /$(arg prefix)/control/odom /$(arg prefix)/control/report /$(arg prefix)/control/state /$(arg prefix)/qtc_state_topics /$(arg prefix)/people_tracker_filtered/marker_array /$(arg prefix)/people_tracker_filtered/pose_array /$(arg prefix)/people_tracker_filtered/positions /$(arg prefix)/perception/tracked_persons"/>
   
   
 
